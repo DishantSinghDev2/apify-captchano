@@ -9,8 +9,7 @@
       "type": "string",
       "description": "Your CaptchaNo API key (starts with <code>cn-</code>). Stored encrypted by Apify and never written to logs or the dataset.",
       "editor": "textfield",
-      "isSecret": true,
-      "pattern": "^cn-.+"
+      "isSecret": true
     },
     "tasks": {
       "title": "Tasks (batch)",
@@ -32,8 +31,22 @@
       "type": "string",
       "description": "The kind of captcha to solve.",
       "editor": "select",
-      "enum": ["recaptcha_v2", "recaptcha_v3", "recaptcha_enterprise", "turnstile", "datadome", "image"],
-      "enumTitles": ["reCAPTCHA v2", "reCAPTCHA v3", "reCAPTCHA Enterprise", "Cloudflare Turnstile", "DataDome", "Image / text captcha"]
+      "enum": [
+        "recaptcha_v2",
+        "recaptcha_v3",
+        "recaptcha_enterprise",
+        "turnstile",
+        "datadome",
+        "image"
+      ],
+      "enumTitles": [
+        "reCAPTCHA v2",
+        "reCAPTCHA v3",
+        "reCAPTCHA Enterprise",
+        "Cloudflare Turnstile",
+        "DataDome",
+        "Image / text captcha"
+      ]
     },
     "url": {
       "title": "Page URL",
@@ -56,7 +69,7 @@
     "minScore": {
       "title": "Minimum score",
       "type": "number",
-      "description": "reCAPTCHA v3 / Enterprise minimum score (0.1–0.9).",
+      "description": "reCAPTCHA v3 / Enterprise minimum score (0.1\u20130.9).",
       "editor": "number",
       "minimum": 0.1,
       "maximum": 0.9,
@@ -118,5 +131,7 @@
       "unit": "USD"
     }
   },
-  "required": ["apiKey"]
+  "required": [
+    "apiKey"
+  ]
 }
