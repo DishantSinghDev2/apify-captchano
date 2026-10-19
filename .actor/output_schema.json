@@ -1,0 +1,18 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "CaptchaNo Captcha Solver output",
+  "properties": {
+    "results": {
+      "type": "string",
+      "title": "Solve results",
+      "description": "One item per task: status, token/cookie/text, userAgent, solveTime, cost and any error code.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items"
+    },
+    "summary": {
+      "type": "string",
+      "title": "Run summary",
+      "description": "Totals for the run: tasks, solved, failed, skipped, total cost in USD and why it stopped early, if it did.",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/OUTPUT"
+    }
+  }
+}

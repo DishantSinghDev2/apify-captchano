@@ -120,7 +120,7 @@ import { Actor } from 'apify';
 
 await Actor.init();
 
-const run = await Actor.call('<username>/captchano-captcha-solver', {
+const run = await Actor.call('dishistech/captchano-captcha-solver', {
   apiKey: process.env.CAPTCHANO_API_KEY,
   tasks: [
     { type: 'turnstile', url: 'https://example.com/login', sitekey: '0x4AAAAAAA...' },
@@ -140,7 +140,7 @@ Run synchronously and get the dataset items in one request:
 
 ```bash
 curl -X POST \
-  "https://api.apify.com/v2/acts/<username>~captchano-captcha-solver/run-sync-get-dataset-items?token=$APIFY_TOKEN" \
+  "https://api.apify.com/v2/acts/dishistech~captchano-captcha-solver/run-sync-get-dataset-items?token=$APIFY_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "apiKey": "cn-your-key",
@@ -158,7 +158,7 @@ Python (`apify-client`):
 from apify_client import ApifyClient
 
 client = ApifyClient("<APIFY_TOKEN>")
-run = client.actor("<username>/captchano-captcha-solver").call(run_input={
+run = client.actor("dishistech/captchano-captcha-solver").call(run_input={
     "apiKey": "cn-your-key",
     "type": "turnstile",
     "url": "https://example.com/login",

@@ -7,7 +7,7 @@
     "apiKey": {
       "title": "CaptchaNo API key",
       "type": "string",
-      "description": "Your CaptchaNo API key (starts with <code>cn-</code>). Stored encrypted by Apify and never written to logs or the dataset.",
+      "description": "Your CaptchaNo API key (starts with <code>cn-</code>). Stored encrypted by Apify and never written to logs or the dataset. Required to solve anything: without a key the run finishes immediately with one 'skipped' item explaining how to get one.",
       "editor": "textfield",
       "isSecret": true
     },
@@ -131,7 +131,5 @@
       "unit": "USD"
     }
   },
-  "required": [
-    "apiKey"
-  ]
+  "required": []
 }

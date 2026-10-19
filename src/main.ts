@@ -19,6 +19,23 @@ const rawInput = (await Actor.getInput<ActorInput>()) ?? {};
 let redact: (t: string) => string = createRedactor(collectSecrets(rawInput.apiKey, []));
 let taskCount = 0;
 
+// No key: finish cleanly with one explanatory item instead of failing. This is
+// also what Apify's daily default-input health check sees.
+if (!(typeof rawInput.apiKey === 'string' && rawInput.apiKey.trim())) {
+  const message = 'No CaptchaNo API key was provided, so nothing was solved. Create a key at https://captchano.com/dashboard/keys (new accounts get free credit) and pass it as "apiKey".';
+  await Actor.pushData({
+    taskIndex: 0,
+    status: 'skipped',
+    type: null,
+    errorCode: 'missing_api_key',
+    errorMessage: message,
+    finishedAt: new Date().toISOString(),
+  });
+  await Actor.setValue('OUTPUT', { total: 0, solved: 0, failed: 0, skipped: 1, invalid: 0, totalCostUsd: 0, stoppedReason: 'missing_api_key' });
+  log.warning(message);
+  await Actor.exit(message);
+}
+
 try {
   const input = normalizeInput(rawInput);
   taskCount = input.tasks.length;
