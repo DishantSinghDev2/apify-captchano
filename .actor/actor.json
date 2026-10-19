@@ -1,0 +1,18 @@
+{
+  "actorSpecification": 1,
+  "name": "captchano-captcha-solver",
+  "title": "CaptchaNo Captcha Solver — reCAPTCHA, Turnstile, DataDome",
+  "description": "Solve reCAPTCHA v2, v3 and Enterprise, Cloudflare Turnstile, DataDome and image captchas from any Actor or the Apify API. Batch solving with bounded concurrency, retries and a spend cap. Bring your own CaptchaNo API key.",
+  "version": "1.0",
+  "buildTag": "latest",
+  "meta": {
+    "templateId": "ts-empty"
+  },
+  "input": "./input_schema.json",
+  "storages": {
+    "dataset": "./dataset_schema.json"
+  },
+  "dockerfile": "./Dockerfile",
+  "minMemoryMbytes": 128,
+  "maxMemoryMbytes": 1024
+}

@@ -1,0 +1,75 @@
+{
+  "actorSpecification": 1,
+  "title": "CaptchaNo solve results",
+  "description": "One item per input task.",
+  "fields": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "taskIndex": { "type": "integer", "title": "Task index", "description": "Position of the task in the input (0-based)." },
+      "id": { "type": ["string", "null"], "title": "Task ID", "description": "CaptchaNo task ID (null if the task was never submitted)." },
+      "type": { "type": ["string", "null"], "title": "Type", "description": "Captcha type.", "example": "recaptcha_v2" },
+      "status": { "type": "string", "enum": ["ready", "failed", "skipped", "invalid"], "title": "Status", "description": "ready = solved; failed = not solved (not billed); skipped = not submitted (budget, balance or key); invalid = input error." },
+      "token": { "type": ["string", "null"], "title": "Token", "description": "reCAPTCHA / Turnstile token." },
+      "cookie": { "type": ["string", "null"], "title": "Cookie", "description": "DataDome cookie." },
+      "text": { "type": ["string", "null"], "title": "Text", "description": "Image captcha answer." },
+      "solutionUserAgent": { "type": ["string", "null"], "title": "Solution user agent", "description": "User agent to use with the solution, when returned." },
+      "solutionPreview": { "type": ["string", "null"], "title": "Solution (preview)", "description": "First characters of the token, cookie or text." },
+      "errorCode": { "type": ["string", "null"], "title": "Error code", "description": "e.g. unsolvable, invalid_sitekey, proxy_unreachable, budget_reached." },
+      "errorMessage": { "type": ["string", "null"], "title": "Error message", "description": "Human-readable error." },
+      "costUsd": { "type": "number", "title": "Cost (USD)", "description": "Amount charged by CaptchaNo for this task; 0 when not billed." },
+      "cost": { "type": ["string", "null"], "title": "Cost (raw)", "description": "Cost as the decimal string returned by the API." },
+      "billedFrom": { "type": ["string", "null"], "title": "Billed from", "description": "Balance the cost was taken from, as reported by the API." },
+      "solveTime": { "type": ["number", "null"], "title": "Solve time", "description": "Solve time as reported by the API." },
+      "createdAt": { "type": ["string", "null"], "title": "Created at", "description": "Task creation time (ISO 8601)." },
+      "attempts": { "type": "integer", "title": "Attempts", "description": "Submit attempts including retries." },
+      "polls": { "type": "integer", "title": "Polls", "description": "Status polls after an asynchronous submit." },
+      "finishedAt": { "type": "string", "title": "Finished at", "description": "When this item was written (ISO 8601)." },
+      "input": { "type": "object", "title": "Input", "description": "Echo of the task input. Proxy credentials are masked; the API key is never included." }
+    },
+    "required": ["taskIndex", "status"]
+  },
+  "views": {
+    "overview": {
+      "title": "Overview",
+      "description": "Status, truncated solution, solve time, cost and error per task.",
+      "transformation": {
+        "fields": ["taskIndex", "id", "type", "status", "solutionPreview", "solveTime", "costUsd", "errorCode", "errorMessage"]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "taskIndex": { "label": "#", "format": "number" },
+          "id": { "label": "Task ID", "format": "text" },
+          "type": { "label": "Type", "format": "text" },
+          "status": { "label": "Status", "format": "text" },
+          "solutionPreview": { "label": "Token / cookie / text", "format": "text" },
+          "solveTime": { "label": "Solve time", "format": "number" },
+          "costUsd": { "label": "Cost (USD)", "format": "number" },
+          "errorCode": { "label": "Error", "format": "text" },
+          "errorMessage": { "label": "Error message", "format": "text" }
+        }
+      }
+    },
+    "solutions": {
+      "title": "Full solutions",
+      "description": "Complete tokens, cookies and answers.",
+      "transformation": {
+        "fields": ["taskIndex", "id", "type", "status", "token", "cookie", "text", "solutionUserAgent"]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "taskIndex": { "label": "#", "format": "number" },
+          "id": { "label": "Task ID", "format": "text" },
+          "type": { "label": "Type", "format": "text" },
+          "status": { "label": "Status", "format": "text" },
+          "token": { "label": "Token", "format": "text" },
+          "cookie": { "label": "Cookie", "format": "text" },
+          "text": { "label": "Text", "format": "text" },
+          "solutionUserAgent": { "label": "User agent", "format": "text" }
+        }
+      }
+    }
+  }
+}

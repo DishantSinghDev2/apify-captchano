@@ -1,0 +1,122 @@
+{
+  "title": "CaptchaNo Captcha Solver input",
+  "description": "Paste your CaptchaNo API key, then either list tasks in <b>Tasks</b> (batch) or fill in the single-task fields below. Get a key at <a href='https://captchano.com' target='_blank'>captchano.com</a>.",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "apiKey": {
+      "title": "CaptchaNo API key",
+      "type": "string",
+      "description": "Your CaptchaNo API key (starts with <code>cn-</code>). Stored encrypted by Apify and never written to logs or the dataset.",
+      "editor": "textfield",
+      "isSecret": true,
+      "pattern": "^cn-.+"
+    },
+    "tasks": {
+      "title": "Tasks (batch)",
+      "type": "array",
+      "description": "Array of task objects, solved in parallel. Each task takes the same fields as <code>POST /v1/solve</code>: <code>type</code> (recaptcha_v2 | recaptcha_v3 | recaptcha_enterprise | turnstile | datadome | image), <code>url</code>, <code>sitekey</code>, <code>action</code>, <code>minScore</code>, <code>invisible</code>, <code>cData</code>, <code>pageData</code>, <code>challengeUrl</code>, <code>body</code> (base64 image), <code>userAgent</code>, <code>proxy</code>. Leave empty to use the single-task fields below.",
+      "editor": "json",
+      "prefill": [
+        {
+          "type": "recaptcha_v2",
+          "url": "https://www.google.com/recaptcha/api2/demo",
+          "sitekey": "6Le-wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ-"
+        }
+      ]
+    },
+    "type": {
+      "sectionCaption": "Single task (used when Tasks is empty)",
+      "sectionDescription": "Convenience fields for solving one captcha without writing JSON.",
+      "title": "Captcha type",
+      "type": "string",
+      "description": "The kind of captcha to solve.",
+      "editor": "select",
+      "enum": ["recaptcha_v2", "recaptcha_v3", "recaptcha_enterprise", "turnstile", "datadome", "image"],
+      "enumTitles": ["reCAPTCHA v2", "reCAPTCHA v3", "reCAPTCHA Enterprise", "Cloudflare Turnstile", "DataDome", "Image / text captcha"]
+    },
+    "url": {
+      "title": "Page URL",
+      "type": "string",
+      "description": "URL of the page that shows the captcha. Required for every type except image.",
+      "editor": "textfield"
+    },
+    "sitekey": {
+      "title": "Site key",
+      "type": "string",
+      "description": "The captcha site key found in the page source (reCAPTCHA / Turnstile).",
+      "editor": "textfield"
+    },
+    "action": {
+      "title": "Action",
+      "type": "string",
+      "description": "reCAPTCHA v3 / Enterprise or Turnstile action name, if the page uses one.",
+      "editor": "textfield"
+    },
+    "minScore": {
+      "title": "Minimum score",
+      "type": "number",
+      "description": "reCAPTCHA v3 / Enterprise minimum score (0.1–0.9).",
+      "editor": "number",
+      "minimum": 0.1,
+      "maximum": 0.9,
+      "nullable": true
+    },
+    "invisible": {
+      "title": "Invisible reCAPTCHA",
+      "type": "boolean",
+      "description": "Set when the reCAPTCHA v2 widget is invisible.",
+      "editor": "checkbox",
+      "nullable": true
+    },
+    "challengeUrl": {
+      "title": "DataDome challenge URL",
+      "type": "string",
+      "description": "The DataDome challenge (captcha-delivery) URL. Required for DataDome.",
+      "editor": "textfield"
+    },
+    "proxy": {
+      "title": "Proxy",
+      "type": "string",
+      "description": "Proxy as <code>http://user:pass@host:port</code> (http, socks4 or socks5). Required for DataDome. Credentials are masked in logs and output.",
+      "editor": "textfield",
+      "isSecret": true
+    },
+    "userAgent": {
+      "title": "User agent",
+      "type": "string",
+      "description": "Browser user agent to bind the solution to (optional).",
+      "editor": "textfield"
+    },
+    "waitSeconds": {
+      "sectionCaption": "Run settings",
+      "title": "Wait per request (seconds)",
+      "type": "integer",
+      "description": "How long each solve request may block waiting for the answer (<code>?wait=</code>, max 120). Tasks still solving afterwards are polled every 5 s for up to 180 s.",
+      "editor": "number",
+      "minimum": 0,
+      "maximum": 120,
+      "default": 60,
+      "unit": "seconds"
+    },
+    "concurrency": {
+      "title": "Concurrency",
+      "type": "integer",
+      "description": "How many tasks to solve in parallel.",
+      "editor": "number",
+      "minimum": 1,
+      "maximum": 50,
+      "default": 5
+    },
+    "maxSpendUsd": {
+      "title": "Budget cap (USD)",
+      "type": "number",
+      "description": "Optional. Stop submitting new tasks once the CaptchaNo cost of this run reaches this amount. Tasks already in progress still finish. Failed solves are never billed.",
+      "editor": "number",
+      "minimum": 0.0001,
+      "nullable": true,
+      "unit": "USD"
+    }
+  },
+  "required": ["apiKey"]
+}
