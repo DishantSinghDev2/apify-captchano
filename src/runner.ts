@@ -116,7 +116,12 @@ export function itemFromTask(entry: TaskEntry, task: Task, attempts: number, pol
     cost: task.cost ?? null,
     billedFrom: task.billedFrom ?? null,
     solveTime: typeof task.solveTime === 'number' ? task.solveTime : null,
-    createdAt: task.createdAt ?? null,
+    createdAt:
+      task.createdAt == null
+        ? null
+        : typeof task.createdAt === 'number'
+          ? new Date(task.createdAt).toISOString()
+          : task.createdAt,
     attempts,
     polls,
   };

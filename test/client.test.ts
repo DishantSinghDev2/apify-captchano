@@ -9,7 +9,7 @@ const demo = { type: 'recaptcha_v2' as const, url: 'https://www.google.com/recap
 test('200 ready: sends Bearer auth, wait param and body', async () => {
   const { fetch, calls } = mockFetch(() => ({
     status: 200,
-    body: { id: 't1', type: 'recaptcha_v2', status: 'ready', solution: { token: 'TOKEN' }, cost: '0.00285', createdAt: 'x' },
+    body: { id: 't1', type: 'recaptcha_v2', status: 'ready', solution: { token: 'TOKEN' }, cost: '0.00285', createdAt: 1792404000000 },
   }));
   const client = new CaptchaNoClient({ apiKey: KEY, fetch });
   const { task, attempts, polls } = await client.solveAndWait(demo, { waitSeconds: 60, sleep: noSleep });

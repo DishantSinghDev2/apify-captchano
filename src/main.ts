@@ -28,7 +28,12 @@ try {
     ]),
   );
 
-  const client = new CaptchaNoClient({ apiKey: input.apiKey, userAgent: 'captchano-apify-actor/1.0' });
+  const client = new CaptchaNoClient({
+    apiKey: input.apiKey,
+    userAgent: 'captchano-apify-actor/1.0',
+    // For testing against a local or staging API only.
+    baseUrl: process.env.CAPTCHANO_API_BASE || undefined,
+  });
   log.info(`CaptchaNo key ${maskApiKey(input.apiKey)} — ${input.tasks.length} task(s), concurrency ${input.concurrency}, wait ${input.waitSeconds}s` +
     `${input.maxSpendUsd !== undefined ? `, budget ${fmtUsd(input.maxSpendUsd)}` : ''}`);
 
